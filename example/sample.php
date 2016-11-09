@@ -19,16 +19,10 @@ $queue->push($sendEmailJob, $payLoad);
 // Start worker
 $queue = new Queue($queueName, new InMemoryDriver());
 
-$logger = new Monolog($logger);
-
-Worker::run($queue, $maxTries = 5, $logger);
+Worker::run($queue, $maxTries = 5);
 
 // View jobs inside a queue
 Worker::view($queue);
-
-
-
-
 
 
 // Notes

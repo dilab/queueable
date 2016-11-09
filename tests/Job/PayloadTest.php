@@ -21,6 +21,9 @@ class PayloadTest extends TestCase
             [
                 'Xu', ['name' => 'Xu', 'dob' => '1986-05-07'], 'name', ''
             ],
+            [
+                ['name' => 'Xu', 'dob' => '1986-05-07'], ['name' => 'Xu', 'dob' => '1986-05-07'], '', ''
+            ]
         ];
     }
 

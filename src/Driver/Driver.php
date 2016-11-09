@@ -3,6 +3,8 @@ namespace Dilab\Queueable\Driver;
 
 abstract class Driver
 {
+    public abstract function name();
+
     public abstract function connect($queueName);
 
     /**
@@ -10,7 +12,7 @@ abstract class Driver
      *
      * @param array $options an array of options for popping a message from the queue
      *
-     * @return array an array of item data
+     * @return array an array of message
      */
     public abstract function pop($queueName, $options = []);
 

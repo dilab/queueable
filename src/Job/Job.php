@@ -3,12 +3,15 @@
 
 namespace Dilab\Queueable\Job;
 
+use Dilab\Queueable\Contract\JobContract;
+use Dilab\Queueable\Queue;
+
 abstract class Job
 {
     /**
-     * @var string
+     * @var Queue
      */
-    private $queueName;
+    private $queue;
 
     /**
      * @var Payload
@@ -16,16 +19,27 @@ abstract class Job
     private $payload;
 
     /**
-     * @var string
+     * @var JobContract
      */
-    private $type;
+    private $userJob;
+
+    /**
+     * Job constructor.
+     * @param Queue $queue
+     * @param Payload $payload
+     * @param JobContract $userJob
+     */
+    public function __construct(Queue $queue, Payload $payload, JobContract $userJob)
+    {
+        $this->queue = $queue;
+        $this->payload = $payload;
+        $this->userJob = $userJob;
+    }
 
     public function fire()
     {
 
     }
-
-    public abstract function handle(Payload $payload);
 
     public abstract function acknowledge();
 

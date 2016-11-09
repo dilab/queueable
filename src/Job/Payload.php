@@ -23,8 +23,12 @@ class Payload
      *
      * Safe data retrieve
      */
-    public function data($key, $default = '')
+    public function data($key = '', $default = '')
     {
+        if (empty($key)) {
+            return $this->data;
+        }
+
         if (!isset($this->data[$key])) {
             return $default;
         }

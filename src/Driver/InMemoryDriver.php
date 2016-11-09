@@ -8,6 +8,11 @@ class InMemoryDriver extends Driver
 {
     private $messages = [];
 
+    public function name()
+    {
+        return 'InMemory';
+    }
+
     public function connect($queueName)
     {
         return true;
