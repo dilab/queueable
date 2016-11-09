@@ -8,34 +8,54 @@ class InMemoryDriver extends Driver
 {
     private $messages = [];
 
-    public function connect()
+    public function connect($queueName)
     {
         return true;
     }
 
-    public function pop($options = [])
+    public function pop($queueName, $options = [])
     {
-        return $this->messages[0];
+        $messages = $this->messages($queueName);
+
+        if (empty($messages)) {
+            return [];
+        }
+
+        list($first) = $messages;
+
+        return $first;
     }
 
-    public function push($message, $options = [])
+    public function push($queueName, $message, $options = [])
     {
-        // TODO: Implement push() method.
+        if (!isset($this->messages[$queueName])) {
+            $this->messages[$queueName] = [];
+        }
+
+        array_push($this->messages[$queueName], $message);
     }
 
-    public function queues()
+    public function delete($queueName, $message)
     {
-        // TODO: Implement queues() method.
+        $messages = $this->messages($queueName);
+
+        foreach ($messages as $i => $message) {
+            if ($message['id'] == $message['id']) {
+                unset($messages[$i]);
+            }
+        }
+
+        $this->messages[$queueName] = array_values($messages);
     }
 
-    public function release($message, $options = [])
+    public function release($queueName, $message, $options = [])
     {
-        // TODO: Implement release() method.
+        return;
     }
 
-    public function jobs($queueName)
+    public function messages($queueName)
     {
-        // TODO: Implement jobs() method.
+        return isset($this->messages[$queueName]) ? $this->messages[$queueName] : [];
     }
 
 }

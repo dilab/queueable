@@ -3,7 +3,7 @@ namespace Dilab\Queueable\Driver;
 
 abstract class Driver
 {
-    public abstract function connect();
+    public abstract function connect($queueName);
 
     /**
      * Pop the next message off of the queue.
@@ -12,7 +12,7 @@ abstract class Driver
      *
      * @return array an array of item data
      */
-    public abstract function pop($options = []);
+    public abstract function pop($queueName, $options = []);
 
     /**
      * Push a single message onto the queue.
@@ -22,14 +22,16 @@ abstract class Driver
      *
      * @return boolean
      **/
-    public abstract function push($message, $options = []);
+    public abstract function push($queueName, $message, $options = []);
 
     /**
-     * Get a list of available queues
+     * Delete a single message from the queue.
      *
-     * @return array
-     */
-    public abstract function queues();
+     * @param array $message an item payload
+     *
+     * @return boolean
+     **/
+    public abstract function delete($queueName, $message);
 
     /**
      * Release the message back into the queue.
@@ -38,7 +40,7 @@ abstract class Driver
      *
      * @return boolean
      */
-    public abstract function release($message, $options = []);
+    public abstract function release($queueName, $message, $options = []);
 
     /**
      * List messages inside a queue.
@@ -47,5 +49,5 @@ abstract class Driver
      *
      * @return array
      */
-    public abstract function jobs($queueName);
+    public abstract function messages($queueName);
 }
