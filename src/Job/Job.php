@@ -11,34 +11,32 @@ abstract class Job
     /**
      * @var Queue
      */
-    private $queue;
+    protected $queue;
 
     /**
-     * @var Payload
+     * @var array
      */
-    private $payload;
-
-    /**
-     * @var JobContract
-     */
-    private $userJob;
+    protected $message;
 
     /**
      * Job constructor.
      * @param Queue $queue
-     * @param Payload $payload
-     * @param JobContract $userJob
+     * @param array $message
      */
-    public function __construct(Queue $queue, Payload $payload, JobContract $userJob)
+    public function __construct(Queue $queue, array $message)
     {
         $this->queue = $queue;
-        $this->payload = $payload;
-        $this->userJob = $userJob;
+        $this->message = $message;
     }
 
+    /**
+     * @return void
+     *
+     * Fire user job
+     */
     public function fire()
     {
-
+        return $this->userJobInstance->handle($this->payload);
     }
 
     public abstract function acknowledge();

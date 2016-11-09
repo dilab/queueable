@@ -6,29 +6,28 @@ namespace Dilab\Queueable\Job;
 
 class InMemoryJob extends Job
 {
-    public function handle(Payload $payload)
-    {
-        // TODO: Implement handle() method.
-    }
 
     public function acknowledge()
     {
-        // TODO: Implement acknowledge() method.
+        $this->queue->getDriver()->delete(
+            $this->queue->getQueueName(),
+            $this->message
+        );
     }
 
     public function release()
     {
-        // TODO: Implement release() method.
+        return;
     }
 
     public function attempts()
     {
-        // TODO: Implement attempts() method.
+        return intval(0);
     }
 
     public function id()
     {
-        // TODO: Implement id() method.
+        return $this->message['id'];
     }
 
 }

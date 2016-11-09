@@ -13,12 +13,12 @@ class Queue
     /**
      * @var Driver
      */
-    private $driver;
+    protected $driver;
 
     /**
      * @var string
      */
-    private $queueName;
+    protected $queueName;
 
     /**
      * Queue constructor.
@@ -48,6 +48,9 @@ class Queue
         $this->driver->push($this->queueName, $message);
     }
 
+    /**
+     * @return null|Job
+     */
     public function pop()
     {
         $message = $this->driver->pop($this->queueName);
@@ -62,8 +65,25 @@ class Queue
 
         return new $jobClassName(
             $this,
-            new Payload($message['payloadData']),
-            unserialize($message['userJobInstance'])
+            $message
         );
     }
+
+    /**
+     * @return Driver
+     */
+    public function getDriver()
+    {
+        return $this->driver;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQueueName()
+    {
+        return $this->queueName;
+    }
+
+
 }

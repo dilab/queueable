@@ -25,11 +25,4 @@ Worker::run($queue, $maxTries = 5);
 Worker::view($queue);
 
 
-// Notes
-
-// Worker deals with Job & Queue objects
-// Driver deals with Messages(JSON)
-// Queue translates Driver Message to Job Objects
-// Job deals with Driver Messages
-
 
