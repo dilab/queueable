@@ -20,14 +20,5 @@ class InMemoryJob extends Job
         return;
     }
 
-    public function attempts()
-    {
-        return intval(0);
-    }
-
-    public function id()
-    {
-        return $this->message['id'];
-    }
 
 }

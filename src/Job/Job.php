@@ -36,14 +36,23 @@ abstract class Job
      */
     public function fire()
     {
-        return $this->userJobInstance->handle($this->payload);
+        $userJobInstance = $this->message['userJobInstance'];
+        $payload = $this->message['payload'];
+        return $userJobInstance->handle($payload);
+    }
+
+    public function id()
+    {
+        return $this->message['id'];
+    }
+
+    public function attempts()
+    {
+        return intval(0);
     }
 
     public abstract function acknowledge();
 
     public abstract function release();
 
-    public abstract function attempts();
-
-    public abstract function id();
 }

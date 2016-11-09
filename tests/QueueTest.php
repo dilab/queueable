@@ -41,16 +41,16 @@ class QueueTest extends TestCase
 
     public function testPush()
     {
-        $jobHandler = new TestJob();
+        $jobHandler = new QueueTestJob();
         $data = ['name' => 'Xu'];
         $payload = (new Payload($data));
         $this->queue->push($jobHandler, $payload);
 
         $result = $this->inMemoryDriver->pop($this->queueName);
         $handlerInDriver = $result['userJobInstance'];
-        $payloadInDriver = $result['payloadData'];
-        $this->assertEquals($handlerInDriver, serialize($jobHandler));
-        $this->assertEquals($payloadInDriver, $data);
+        $payloadInDriver = $result['payload'];
+        $this->assertInstanceOf(JobContract::class, $handlerInDriver);
+        $this->assertInstanceOf(Payload::class, $payloadInDriver);
     }
 
     public function testPop()
@@ -58,7 +58,7 @@ class QueueTest extends TestCase
         $job = $this->queue->pop();
         $this->assertNull($job);
 
-        $jobHandler = new TestJob();
+        $jobHandler = new QueueTestJob();
         $data = ['name' => 'Xu'];
         $payload = (new Payload($data));
         $this->queue->push($jobHandler, $payload);
@@ -66,14 +66,9 @@ class QueueTest extends TestCase
         $this->assertInstanceOf(Job::class, $job);
     }
 
-    public function testHasNext()
-    {
-
-    }
-
 }
 
-class TestJob implements JobContract
+class QueueTestJob implements JobContract
 {
     public function handle(Payload $payload)
     {

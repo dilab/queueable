@@ -41,8 +41,8 @@ class Queue
     {
         $message = [
             'id' => md5(uniqid('', true)),
-            'userJobInstance' => serialize(clone $job),
-            'payloadData' => $payload->data()
+            'userJobInstance' => $job,
+            'payload' => $payload
         ];
 
         $this->driver->push($this->queueName, $message);
@@ -63,10 +63,7 @@ class Queue
 
         $jobClassName = $jobClassNamespace . '\\' . $this->driver->name() . 'Job';
 
-        return new $jobClassName(
-            $this,
-            $message
-        );
+        return new $jobClassName($this, $message);
     }
 
     /**

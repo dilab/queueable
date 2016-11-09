@@ -9,7 +9,7 @@ use Dilab\Queueable\Driver\InMemoryDriver;
 use Dilab\Queueable\Queue;
 use PHPUnit\Framework\TestCase;
 
-class InMemoryJobTest extends TestCase
+class JobTest extends TestCase
 {
     /**
      * @var Queue
@@ -44,7 +44,7 @@ class InMemoryJobTest extends TestCase
 
         $this->inMemoryDriver = new InMemoryDriver();
 
-        $this->userJobInstance = new TestJob();
+        $this->userJobInstance = $this->getMockBuilder(JobTestJob::class)->getMock();
 
         $this->queueName = 'test';
 
@@ -57,10 +57,11 @@ class InMemoryJobTest extends TestCase
         $this->inMemoryJob = $this->queue->pop();
     }
 
-    public function testAcknowledge()
+    public function testFire()
     {
-        $this->inMemoryJob->acknowledge();
-        $this->assertEquals([], $this->inMemoryDriver->pop($this->queueName));
+        $this->userJobInstance->expects($this->once())->method('handle');
+
+        $this->inMemoryJob->fire();
     }
 
     public function testAttempts()
@@ -74,7 +75,7 @@ class InMemoryJobTest extends TestCase
     }
 }
 
-class TestJob implements JobContract
+class JobTestJob implements JobContract
 {
     public function handle(Payload $payload)
     {
