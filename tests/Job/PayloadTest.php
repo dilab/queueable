@@ -4,26 +4,33 @@
 namespace Dilab\Queueable\Job;
 
 
-use Cake\TestSuite\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class PayloadTest extends TestCase
 {
-    public $fixtures = [
 
-    ];
-
-    public function setUp()
+    public function testDataProvider()
     {
-        parent::setUp();
+        return [
+            [
+                '', ['name' => 'Xu', 'dob' => '1986-05-07'], 'occupation', ''
+            ],
+            [
+                'Engineer', ['name' => 'Xu', 'dob' => '1986-05-07'], 'occupation', 'Engineer'
+            ],
+            [
+                'Xu', ['name' => 'Xu', 'dob' => '1986-05-07'], 'name', ''
+            ],
+        ];
     }
 
-    public function tearDown()
+    /**
+     * @dataProvider testDataProvider
+     */
+    public function testData($expected, $data, $key, $default)
     {
-        parent::tearDown();
-    }
-
-    public function testDummy()
-    {
-        $this->markTestSkipped();
+        $payLoad = new Payload($data);
+        $result = $payLoad->data($key, $default);
+        $this->assertEquals($expected, $result);
     }
 }
