@@ -1,28 +1,31 @@
 <?php
-// API Design
 
-use Dilab\Queueable\Driver\InMemoryDriver;
-use Dilab\Queueable\Worker;
+// Create your custom job
+class SendEmailJob implements JobContract
+{
+    public function handle(Payload $payload)
+    {
+        return 'Sending an email to user ' . $payload->get('name');
+    }
 
-$sendEmailJob = (new SendEmailJob())->toQueue('email');
+}
 
-// Enqueue
-$queue->push($sendEmailJob, $payLoad);
+// Create a Queue instance
+$driver = new InMemoryDriver();
 
-// Specs
-// max tries before releasing job back to queue
-// manual release a job
-// view queue jobs
+$queue = new Queue('email', $driver);
 
-// Usage
+// Enqueue a job
+$queue->push(
+    new SendEmailJob(),
+    new Payload(['name' => 'Xu'])
+);
 
-// Start worker
-$queue = new Queue($queueName, new InMemoryDriver());
+// Create a Worker instance
+$worker = new Worker($queue);
 
-Worker::run($queue, $maxTries = 5);
-
-// View jobs inside a queue
-Worker::view($queue);
+// Run worker
+$worker->work();
 
 
 
