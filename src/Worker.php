@@ -24,22 +24,18 @@ class Worker
 
     public function work($maxTries = 5, $sleepSecs = 5)
     {
-        if ($this->test()) {
+        if (!$this->canConnect()) {
             throw new RuntimeException('Can not connect to queue ' . $this->queue->getQueueName());
         }
 
         while (true) {
-
             $this->workOnce($maxTries, $sleepSecs);
-
         }
     }
 
-    public function test()
+    public function canConnect()
     {
-        if (!$this->queue->connect()) {
-            throw new RuntimeException('Can not connect to queue ' . $this->queue->getQueueName());
-        }
+        return $this->queue->connect();
     }
 
     protected function workOnce($maxTries, $sleepSecs)
