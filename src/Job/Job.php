@@ -36,8 +36,8 @@ abstract class Job
      */
     public function fire()
     {
-        $userJobInstance = $this->message['userJobInstance'];
-        $payload = $this->message['payload'];
+        $userJobInstance = $this->userJobInstance();
+        $payload = $this->payload();
         return $userJobInstance->handle($payload);
     }
 
@@ -54,5 +54,15 @@ abstract class Job
     public abstract function acknowledge();
 
     public abstract function release();
+
+    /**
+     * @return JobContract
+     */
+    public abstract function userJobInstance();
+
+    /**
+     * @return Payload
+     */
+    public abstract function payload();
 
 }

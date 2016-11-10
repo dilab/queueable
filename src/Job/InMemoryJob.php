@@ -4,6 +4,8 @@
 namespace Dilab\Queueable\Job;
 
 
+use Dilab\Queueable\Contract\JobContract;
+
 class InMemoryJob extends Job
 {
 
@@ -18,6 +20,16 @@ class InMemoryJob extends Job
     public function release()
     {
         return;
+    }
+
+    public function userJobInstance()
+    {
+        return $this->message['userJobInstance'];
+    }
+
+    public function payload()
+    {
+        return $this->message['payload'];
     }
 
 

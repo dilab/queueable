@@ -74,10 +74,7 @@ class SqsDriverTest extends TestCase
     {
         $expected = [
             'Attributes' => [
-                'ApproximateFirstReceiveTimestamp' => '1442428276921',
                 'ApproximateReceiveCount' => '5',
-                'SenderId' => 'AIDAIAZKMSNQ7TEXAMPLE',
-                'SentTimestamp' => '1442428276921',
             ],
             'Body' => 'My first message',
             'MD5OfBody' => '77a8f18b5388a3865556cc642424151c',
@@ -172,10 +169,7 @@ class SqsDriverTest extends TestCase
         $expected = [
             [
                 'Attributes' => [
-                    'ApproximateFirstReceiveTimestamp' => '1442428276921',
                     'ApproximateReceiveCount' => '5',
-                    'SenderId' => 'AIDAIAZKMSNQ7TEXAMPLE',
-                    'SentTimestamp' => '1442428276921',
                 ],
                 'Body' => 'My first message',
                 'MD5OfBody' => '77a8f18b5388a3865556cc642424151c',
@@ -195,10 +189,7 @@ class SqsDriverTest extends TestCase
             ],
             [
                 'Attributes' => [
-                    'ApproximateFirstReceiveTimestamp' => '1442428276921',
                     'ApproximateReceiveCount' => '5',
-                    'SenderId' => 'AIDAIAZKMSNQ7TEXAMPLE',
-                    'SentTimestamp' => '1442428276921',
                 ],
                 'Body' => 'My second message',
                 'MD5OfBody' => '0c9ec408cb84147c5301921b42429ad7',
