@@ -52,6 +52,20 @@ class SqsDriverTest extends TestCase
         parent::tearDown();
     }
 
+    public function testConnect()
+    {
+        $expected = 'https://queue.amazonaws.com/123456789101/MyQueue';
+        $this->setSqsClientResponse([
+            ['QueueUrl' => $expected],
+            []
+        ]);
+        $result = $this->sqsDriver->connect('email');
+        $this->assertTrue($result);
+
+        $result = $this->sqsDriver->connect('email');
+        $this->assertFalse($result);
+    }
+
     public function testName()
     {
         $this->assertEquals('Sqs', $this->sqsDriver->name());

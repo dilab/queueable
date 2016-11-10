@@ -37,6 +37,11 @@ class SqsDriver extends Driver
         $this->sqsClient = $sqsClient;
     }
 
+    public function connect($queueName)
+    {
+        return !empty($this->getQueueUrlByName($queueName));
+    }
+
     public function name()
     {
         return 'Sqs';
