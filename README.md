@@ -1,4 +1,4 @@
-# Queueable: Framework Agnostic Queue System
+# Queueable: Framework Agnostic Queue/Worker System
 
 ### For Developer
 Some general notes when developing this package
