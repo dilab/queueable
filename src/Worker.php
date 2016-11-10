@@ -4,6 +4,8 @@
 namespace Dilab\Queueable;
 
 
+use SebastianBergmann\CodeCoverage\RuntimeException;
+
 class Worker
 {
     /**
@@ -22,12 +24,21 @@ class Worker
 
     public function work($maxTries = 5, $sleepSecs = 5)
     {
-        $this->queue->connect();
+        if ($this->test()) {
+            throw new RuntimeException('Can not connect to queue ' . $this->queue->getQueueName());
+        }
 
         while (true) {
 
             $this->workOnce($maxTries, $sleepSecs);
 
+        }
+    }
+
+    public function test()
+    {
+        if (!$this->queue->connect()) {
+            throw new RuntimeException('Can not connect to queue ' . $this->queue->getQueueName());
         }
     }
 
