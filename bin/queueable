@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-$autoloader = require __DIR__ . '/../src/composer_autoloader.php';
+$autoloader = require __DIR__ . '/../src/Cli/composer_autoloader.php';
 
 if (!$autoloader()) {
     die(
@@ -11,5 +11,5 @@ if (!$autoloader()) {
     );
 }
 
-$runner = new Dilab\Queueable\Runner();
+$runner = new Dilab\Queueable\Cli\Runner();
 $runner->run();

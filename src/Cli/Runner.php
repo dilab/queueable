@@ -37,6 +37,12 @@ class Runner
                 'description' => 'Queue Name',
                 'required' => true
             ],
+            'config' => [
+                'prefix' => 'c',
+                'longPrefix' => 'configure',
+                'description' => 'Load config file from the path specified',
+                'noValue' => true,
+            ],
             'verbose' => [
                 'prefix' => 'v',
                 'longPrefix' => 'verbose',
@@ -44,10 +50,11 @@ class Runner
                 'noValue' => true,
             ],
             'help' => [
+                'prefix' => 'h',
                 'longPrefix' => 'help',
                 'description' => 'Prints a usage statement',
                 'noValue' => true,
-            ],
+            ]
         ]);
 
         try {
