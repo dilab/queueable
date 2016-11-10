@@ -24,7 +24,7 @@ abstract class Driver
      *
      * @return boolean
      **/
-    public abstract function push($queueName, $message, $options = []);
+    public abstract function push($queueName, array $body, $options = []);
 
     /**
      * Delete a single message from the queue.
@@ -33,7 +33,7 @@ abstract class Driver
      *
      * @return boolean
      **/
-    public abstract function delete($queueName, $message);
+    public abstract function delete($queueName, array $message);
 
     /**
      * Release the message back into the queue.
@@ -42,7 +42,7 @@ abstract class Driver
      *
      * @return boolean
      */
-    public abstract function release($queueName, $message, $options = []);
+    public abstract function release($queueName, array $message, $options = []);
 
     /**
      * List messages inside a queue.

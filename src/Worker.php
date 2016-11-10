@@ -11,10 +11,6 @@ class Worker
      */
     private $queue;
 
-    private $maxTries = 5;
-
-    private $sleepSecs = 5;
-
     /**
      * Worker constructor.
      *
@@ -26,6 +22,8 @@ class Worker
 
     public function work($maxTries = 5, $sleepSecs = 5)
     {
+        $this->queue->connect();
+
         while (true) {
 
             $this->workOnce($maxTries, $sleepSecs);
@@ -54,6 +52,8 @@ class Worker
         try {
 
             $job->fire();
+
+            $job->acknowledge();
 
             return 2;
 

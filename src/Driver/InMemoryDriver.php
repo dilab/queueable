@@ -31,16 +31,16 @@ class InMemoryDriver extends Driver
         return $first;
     }
 
-    public function push($queueName, $message, $options = [])
+    public function push($queueName, array $body, $options = [])
     {
         if (!isset($this->messages[$queueName])) {
             $this->messages[$queueName] = [];
         }
 
-        array_push($this->messages[$queueName], $message);
+        array_push($this->messages[$queueName], $body);
     }
 
-    public function delete($queueName, $message)
+    public function delete($queueName, array $message)
     {
         $messages = $this->messages($queueName);
 
@@ -53,7 +53,7 @@ class InMemoryDriver extends Driver
         $this->messages[$queueName] = array_values($messages);
     }
 
-    public function release($queueName, $message, $options = [])
+    public function release($queueName, array $message, $options = [])
     {
         return;
     }

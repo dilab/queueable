@@ -31,6 +31,14 @@ class Queue
     }
 
     /**
+     * @return boolean
+     */
+    public function connect()
+    {
+        return $this->driver->connect($this->queueName);
+    }
+
+    /**
      * @param JobContract $job
      * @param Payload $payload
      * @param array $options
@@ -39,13 +47,13 @@ class Queue
      */
     public function push(JobContract $job, Payload $payload, $options = [])
     {
-        $message = [
+        $body = [
             'id' => md5(uniqid('', true)),
             'userJobInstance' => $job,
             'payload' => $payload
         ];
 
-        $this->driver->push($this->queueName, $message);
+        $this->driver->push($this->queueName, $body);
     }
 
     /**
