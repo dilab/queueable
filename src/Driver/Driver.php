@@ -5,7 +5,22 @@ abstract class Driver
 {
     public abstract function name();
 
-    public abstract function connect($queueName);
+    public function connect($queueName)
+    {
+        return true;
+    }
+
+    /**
+     * Release the message back into the queue.
+     *
+     * @param  array $message an array of item data
+     *
+     * @return boolean
+     */
+    public function release($queueName, array $message, $options = [])
+    {
+        return true;
+    }
 
     /**
      * Pop the next message off of the queue.
@@ -34,15 +49,6 @@ abstract class Driver
      * @return boolean
      **/
     public abstract function delete($queueName, array $message);
-
-    /**
-     * Release the message back into the queue.
-     *
-     * @param  array $message an array of item data
-     *
-     * @return boolean
-     */
-    public abstract function release($queueName, array $message, $options = []);
 
     /**
      * List messages inside a queue.

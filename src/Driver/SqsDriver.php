@@ -42,11 +42,6 @@ class SqsDriver extends Driver
         return 'Sqs';
     }
 
-    public function connect($queueName)
-    {
-        return true;
-    }
-
     public function pop($queueName, $options = [])
     {
         $response = $this->sqsClient->receiveMessage([
@@ -86,11 +81,6 @@ class SqsDriver extends Driver
             'ReceiptHandle' => $message['ReceiptHandle'],
         ]);
 
-        return true;
-    }
-
-    public function release($queueName, array $message, $options = [])
-    {
         return true;
     }
 
