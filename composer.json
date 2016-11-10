@@ -1,6 +1,7 @@
 {
     "name": "dilab/queueable",
     "description": "Framework Agnostic Queue System",
+    "license": "MIT",
     "type": "library",
     "require-dev": {
         "phpunit/phpunit": "^5.6"
