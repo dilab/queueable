@@ -52,7 +52,7 @@ class SqsJob extends Job
 
     private function body()
     {
-        return json_decode($this->message['Body']);
+        return json_decode($this->message['Body'], true);
     }
 
 
