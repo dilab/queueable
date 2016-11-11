@@ -30,20 +30,29 @@ class SqsJob extends Job
 
     public function userJobInstance()
     {
-        if (!is_object($this->message['Body']['userJobInstance'])) {
-            return unserialize($this->message['Body']['userJobInstance']);
+        $body = $this->body();
+
+        if (!is_object($body['userJobInstance'])) {
+            return unserialize($body['userJobInstance']);
         }
 
-        return $this->message['Body']['userJobInstance'];
+        return $body['userJobInstance'];
     }
 
     public function payload()
     {
-        if (!is_object($this->message['Body']['payload'])) {
-            return unserialize($this->message['Body']['payload']);
+        $body = $this->body();
+
+        if (!is_object($body['payload'])) {
+            return unserialize($body['payload']);
         }
 
-        return $this->message['Body']['payload'];
+        return $body['payload'];
+    }
+
+    private function body()
+    {
+        return json_decode($this->message['Body']);
     }
 
 
