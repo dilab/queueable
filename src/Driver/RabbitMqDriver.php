@@ -81,9 +81,4 @@ class RabbitMqDriver extends Driver
         $this->channel->basic_ack($message['deliveryTag']);
     }
 
-    public function messages($queueName)
-    {
-        // TODO: Implement messages() method.
-    }
-
 }
