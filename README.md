@@ -51,6 +51,9 @@ $worker = new Worker($queue);
 $worker->work();
 ```
 
+### Current Drivers:
++ AWS SQS
++ RabbitMQ
 
 ## Notes
 Some general notes when developing this package
