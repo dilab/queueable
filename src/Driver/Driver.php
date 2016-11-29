@@ -57,5 +57,9 @@ abstract class Driver
      *
      * @return array
      */
-    public abstract function messages($queueName);
+    public function messages($queueName)
+    {
+        return [];
+    }
+
 }

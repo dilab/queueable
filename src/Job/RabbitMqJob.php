@@ -4,9 +4,9 @@
 namespace Dilab\Queueable\Job;
 
 
-class SqsJob extends Job
-{
 
+class RabbitMqJob extends Job
+{
     public function acknowledge()
     {
         $this->queue->getDriver()->delete(
@@ -21,11 +21,6 @@ class SqsJob extends Job
             $this->queue->getQueueName(),
             $this->message
         );
-    }
-
-    public function attempts()
-    {
-        return (int)$this->message['Attributes']['ApproximateReceiveCount'];
     }
 
     public function userJobInstance()
@@ -52,11 +47,10 @@ class SqsJob extends Job
 
     private function body()
     {
-        if (!is_array($this->message['Body'])) {
-            return json_decode($this->message['Body'], true);
+        if (!is_array($this->message['body'])) {
+            return json_decode($this->message['body'], true);
         }
-        return $this->message['Body'];
+        return $this->message['body'];
     }
-
 
 }
