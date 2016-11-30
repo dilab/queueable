@@ -5,6 +5,7 @@ namespace Dilab\Queueable\Driver;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
 /**
  * Class RabbitMqDriver
@@ -71,7 +72,9 @@ class RabbitMqDriver extends Driver
             $body['payload'] = serialize($body['payload']);
         }
 
-        $this->channel->basic_publish(json_encode($body), '', $queueName);
+        $body = json_encode($body);
+
+        $this->channel->basic_publish(new AMQPMessage($body), '', $queueName);
     }
 
     public function delete($queueName, array $message)
