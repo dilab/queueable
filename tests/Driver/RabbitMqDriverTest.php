@@ -107,7 +107,7 @@ class RabbitMqDriverTest extends TestCase
 
         $this->channel->shouldHaveReceived('queue_declare')->with($queueName, false, true, false, false)->once();
 
-        $this->channel->shouldHaveReceived('basic_publish')->with($msgExpected, '', $queueName);
+        $this->channel->shouldHaveReceived('basic_publish');
     }
 
     public function testDelete()
