@@ -85,6 +85,13 @@ class SqsJobTest extends TestCase
         $this->assertNotEmpty($this->sqsJob->id());
     }
 
+    public function testName()
+    {
+        $this->sqsJob = new SqsJob($this->queue, $this->message());
+
+        $this->assertSame(SqsJobTestJob::class, $this->sqsJob->name());
+    }
+
     private function message($body = array())
     {
         $message = [

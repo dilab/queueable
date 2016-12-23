@@ -36,4 +36,15 @@ class InMemoryJob extends Job
     {
         return $this->message['id'];
     }
+
+    public function name()
+    {
+        if (is_object($this->message['userJobInstance'])) {
+            return get_class($this->message['userJobInstance']);
+        }
+
+        return $this->message['userJobInstance'];
+    }
+
+
 }

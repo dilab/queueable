@@ -57,6 +57,17 @@ class SqsJob extends Job
         return $body['id'];
     }
 
+    public function name()
+    {
+        $userJobInstance = $this->userJobInstance();
+
+        if (is_object($userJobInstance)) {
+            return get_class($userJobInstance);
+        }
+
+        return $userJobInstance;
+    }
+
     private function body()
     {
         if (!is_array($this->message['Body'])) {

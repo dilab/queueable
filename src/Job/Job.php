@@ -46,11 +46,19 @@ abstract class Job
         return intval(0);
     }
 
-    public abstract function id();
-
     public abstract function acknowledge();
 
     public abstract function release();
+
+    /**
+     * @return string job name
+     */
+    public abstract function name();
+
+    /**
+     * @return string job id
+     */
+    public abstract function id();
 
     /**
      * @return JobContract

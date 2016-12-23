@@ -72,6 +72,11 @@ class InMemoryJobTest extends TestCase
     {
         $this->assertNotEmpty($this->inMemoryJob->id());
     }
+
+    public function testName()
+    {
+        $this->assertNotEmpty(TestJob::class, $this->inMemoryJob->name());
+    }
 }
 
 class TestJob implements JobContract
