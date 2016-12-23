@@ -65,7 +65,7 @@ class Worker implements LoggerAwareInterface
 
         if ($job->attempts() > $maxTries) {
 
-            $this->log(sprintf('Maximum tries of %s times have been reached, delete the job with id %s.', $maxTries, $job->id()));
+            $this->log(sprintf('Maximum tries of %s times have been reached, delete job - %s.', $maxTries, $job->name()));
 
             $job->acknowledge();
 
@@ -76,7 +76,7 @@ class Worker implements LoggerAwareInterface
 
             $job->fire();
 
-            $this->log(sprintf('Complete job with id %s!', $job->id()));
+            $this->log(sprintf('Complete job - %s!', $job->name()));
 
             $job->acknowledge();
 
@@ -84,7 +84,11 @@ class Worker implements LoggerAwareInterface
 
         } catch (\Exception $e) {
 
-            $this->log(sprintf('Error while processing job with id %s!', $job->id()));
+            $this->log(sprintf('Error while processing job - %s!', $job->name()));
+
+            $this->log($e->getMessage());
+
+            $this->log($e->getTrace());
 
             $job->release();
 
