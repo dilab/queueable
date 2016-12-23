@@ -76,6 +76,15 @@ class SqsJobTest extends TestCase
         $this->assertInstanceOf(Payload::class, $this->sqsJob->payload());
     }
 
+    public function testId()
+    {
+        $this->sqsJob = new SqsJob(
+            $this->queue, $this->message()
+        );
+
+        $this->assertNotEmpty($this->sqsJob->id());
+    }
+
     private function message($body = array())
     {
         $message = [

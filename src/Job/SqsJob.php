@@ -50,6 +50,13 @@ class SqsJob extends Job
         return $body['payload'];
     }
 
+    public function id()
+    {
+        $body = $this->body();
+
+        return $body['id'];
+    }
+
     private function body()
     {
         if (!is_array($this->message['Body'])) {
@@ -57,6 +64,5 @@ class SqsJob extends Job
         }
         return $this->message['Body'];
     }
-
 
 }

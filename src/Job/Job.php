@@ -41,15 +41,12 @@ abstract class Job
         return $userJobInstance->handle($payload);
     }
 
-    public function id()
-    {
-        return $this->message['id'];
-    }
-
     public function attempts()
     {
         return intval(0);
     }
+
+    public abstract function id();
 
     public abstract function acknowledge();
 

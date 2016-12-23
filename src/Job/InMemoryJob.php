@@ -32,5 +32,8 @@ class InMemoryJob extends Job
         return $this->message['payload'];
     }
 
-
+    public function id()
+    {
+        return $this->message['id'];
+    }
 }
