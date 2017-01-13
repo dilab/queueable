@@ -73,6 +73,28 @@ class WorkerTest extends TestCase
         $this->assertSame(3, $this->worker->work(1, 0.1));
     }
 
+    public function testWorkerOnce_callback_beforeCompleteJob()
+    {
+        $this->queue->push($this->job, new Payload());
+        $called = false;
+        $this->worker->attach('beforeCompleteJob', function() use (&$called) {
+            $called = true;
+        });
+        $this->worker->work(1, 0.1);
+        $this->assertTrue($called);
+    }
+
+    public function testWorkerOnce_callback_afterCompleteJob()
+    {
+        $this->queue->push($this->job, new Payload());
+        $called = false;
+        $this->worker->attach('afterCompleteJob', function() use (&$called) {
+            $called = true;
+        });
+        $this->worker->work(1, 0.1);
+        $this->assertTrue($called);
+    }
+
 }
 
 class WorkerTestJob implements JobContract

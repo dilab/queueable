@@ -21,6 +21,14 @@ class Worker implements LoggerAwareInterface
     private $logger;
 
     /**
+     * @var array
+     */
+    private $callBacks = [
+        'beforeCompleteJob' => null,
+        'afterCompleteJob' => null,
+    ];
+
+    /**
      * Worker constructor.
      *
      */
@@ -38,6 +46,15 @@ class Worker implements LoggerAwareInterface
         while (true) {
             $this->workOnce($maxTries, $sleepSecs);
         }
+    }
+
+    public function attach($name, callable $func)
+    {
+        if (!in_array($name, array_keys($this->callBacks))) {
+            throw new \RuntimeException(__('Invalid callback name %s', $name));
+        }
+
+        $this->callBacks[$name] = $func;
     }
 
     public function canConnect()
@@ -67,19 +84,21 @@ class Worker implements LoggerAwareInterface
 
             $this->log(sprintf('Maximum tries of %s times have been reached, ignore job by releasing it back to queue - %s.', $maxTries, $job->name()));
 
-//            $job->acknowledge();
             $job->release();
 
             return 1;
         }
 
         try {
+            $this->triggerCallback('beforeCompleteJob');
 
             $job->fire();
 
             $this->log(sprintf('Complete job - %s!', $job->name()));
 
             $job->acknowledge();
+
+            $this->triggerCallback('afterCompleteJob');
 
             return 2;
 
@@ -104,5 +123,13 @@ class Worker implements LoggerAwareInterface
             $this->logger->info($message);
         }
     }
+
+    private function triggerCallback($name)
+    {
+        if (is_callable($this->callBacks[$name])) {
+            call_user_func($this->callBacks[$name]);
+        }
+    }
+
 
 }
