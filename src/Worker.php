@@ -65,9 +65,10 @@ class Worker implements LoggerAwareInterface
 
         if ($job->attempts() > $maxTries) {
 
-            $this->log(sprintf('Maximum tries of %s times have been reached, delete job - %s.', $maxTries, $job->name()));
+            $this->log(sprintf('Maximum tries of %s times have been reached, ignore job by releasing it back to queue - %s.', $maxTries, $job->name()));
 
-            $job->acknowledge();
+//            $job->acknowledge();
+            $job->release();
 
             return 1;
         }
