@@ -13,7 +13,7 @@ class WorkerOnce extends Worker
 {
     public function work($maxTries = 5, $sleepSecs = 5)
     {
-        return $this->workOnce($maxTries, $sleepSecs);
+        return $this->heartbeat($maxTries, $sleepSecs);
     }
 }
 
@@ -89,6 +89,17 @@ class WorkerTest extends TestCase
         $this->queue->push($this->job, new Payload());
         $called = false;
         $this->worker->attach('afterCompleteJob', function() use (&$called) {
+            $called = true;
+        });
+        $this->worker->work(1, 0.1);
+        $this->assertTrue($called);
+    }
+
+    public function testWorkerOnce_callback_heartbeat()
+    {
+        $this->queue->push($this->job, new Payload());
+        $called = false;
+        $this->worker->attach('heartbeat', function() use (&$called) {
             $called = true;
         });
         $this->worker->work(1, 0.1);

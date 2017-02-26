@@ -26,6 +26,7 @@ class Worker implements LoggerAwareInterface
     private $callBacks = [
         'beforeCompleteJob' => null,
         'afterCompleteJob' => null,
+        'heartbeat' => null
     ];
 
     /**
@@ -44,7 +45,7 @@ class Worker implements LoggerAwareInterface
         }
 
         while (true) {
-            $this->workOnce($maxTries, $sleepSecs);
+            $this->heartbeat($maxTries, $sleepSecs);
         }
     }
 
@@ -65,6 +66,12 @@ class Worker implements LoggerAwareInterface
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
+    }
+
+    protected function heartbeat($maxTries, $sleepSecs)
+    {
+        $this->triggerCallback('heartbeat');
+        return $this->workOnce($maxTries, $sleepSecs);
     }
 
     protected function workOnce($maxTries, $sleepSecs)
