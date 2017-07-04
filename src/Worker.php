@@ -4,12 +4,19 @@
 namespace Dilab\Queueable;
 
 
+use Dilab\Queueable\Exception\OutOfOrder;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use SebastianBergmann\CodeCoverage\RuntimeException;
 
 class Worker implements LoggerAwareInterface
 {
+    const STATUS_CODE_IDLE = 0;
+    const STATUS_CODE_MAX_TRY_REACH = 1;
+    const STATUS_CODE_OK = 2;
+    const STATUS_CODE_ERROR = 3;
+    const STATUS_CODE_OUT_OF_ORDER = 4;
+
     /**
      * @var array
      */
@@ -86,7 +93,7 @@ class Worker implements LoggerAwareInterface
 
             sleep($sleepSecs);
 
-            return 0;
+            return self::STATUS_CODE_IDLE;
         }
 
         if ($job->attempts() > $maxTries) {
@@ -95,7 +102,7 @@ class Worker implements LoggerAwareInterface
 
             $job->release();
 
-            return 1;
+            return self::STATUS_CODE_MAX_TRY_REACH;
         }
 
         try {
@@ -109,7 +116,15 @@ class Worker implements LoggerAwareInterface
 
             $this->triggerCallback('afterCompleteJob');
 
-            return 2;
+            return self::STATUS_CODE_OK;
+
+        } catch (OutOfOrder $e) {
+
+            $this->log(sprintf('Job %s is out of order, putting it back to queue', $job->name()));
+
+            $job->release();
+
+            return self::STATUS_CODE_OUT_OF_ORDER;
 
         } catch (\Exception $e) {
 
@@ -121,7 +136,7 @@ class Worker implements LoggerAwareInterface
 
             $job->release();
 
-            return 3;
+            return self::STATUS_CODE_ERROR;
         }
 
     }
