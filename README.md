@@ -13,7 +13,7 @@ composer require dilab/queueable
 
 + Create a Job
 
-```
+```php
 
 class SendEmailJob implements JobContract
 {
@@ -27,7 +27,7 @@ class SendEmailJob implements JobContract
 
 + Create a Queue
 
-```
+```php
 $driver = new InMemoryDriver();
 
 $queue = new Queue('email', $driver);
@@ -35,7 +35,7 @@ $queue = new Queue('email', $driver);
 
 + Enqueue a job
 
-```
+```php
 $queue->push(
     new SendEmailJob(),
     new Payload(['name' => 'Xu'])
@@ -46,12 +46,12 @@ $queue->push(
 
 + Create a Worker instance
 
-```
+```php
 $worker = new Worker($queue);
 ```
 
 + Put worker to work
-```
+```php
 $worker->work();
 ```
 
