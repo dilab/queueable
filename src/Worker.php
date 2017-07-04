@@ -11,6 +11,16 @@ use SebastianBergmann\CodeCoverage\RuntimeException;
 class Worker implements LoggerAwareInterface
 {
     /**
+     * @var array
+     */
+    private $callBacks = [
+        'beforeFetchJob' => null,
+        'beforeCompleteJob' => null,
+        'afterCompleteJob' => null,
+        'heartbeat' => null, // depreciated
+    ];
+
+    /**
      * @var Queue
      */
     private $queue;
@@ -19,15 +29,6 @@ class Worker implements LoggerAwareInterface
      * @var LoggerInterface
      */
     private $logger;
-
-    /**
-     * @var array
-     */
-    private $callBacks = [
-        'beforeCompleteJob' => null,
-        'afterCompleteJob' => null,
-        'heartbeat' => null
-    ];
 
     /**
      * Worker constructor.
@@ -71,6 +72,7 @@ class Worker implements LoggerAwareInterface
     protected function heartbeat($maxTries, $sleepSecs)
     {
         $this->triggerCallback('heartbeat');
+        $this->triggerCallback('beforeFetchJob');
         return $this->workOnce($maxTries, $sleepSecs);
     }
 

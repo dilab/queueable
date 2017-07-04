@@ -9,8 +9,10 @@ composer require dilab/queueable
 
 ## Usage
 
+### Job & Queue
 
-### Create your custom job
++ Create a Job
+
 ```
 
 class SendEmailJob implements JobContract
@@ -23,7 +25,7 @@ class SendEmailJob implements JobContract
 }
 ```
 
-### Create a Queue instance
++ Create a Queue
 
 ```
 $driver = new InMemoryDriver();
@@ -31,7 +33,7 @@ $driver = new InMemoryDriver();
 $queue = new Queue('email', $driver);
 ```
 
-### Enqueue a job
++ Enqueue a job
 
 ```
 $queue->push(
@@ -40,20 +42,52 @@ $queue->push(
 );
 ```
 
-### Create a Worker instance
+### Worker
+
++ Create a Worker instance
 
 ```
 $worker = new Worker($queue);
 ```
 
-### Put worker to work
++ Put worker to work
 ```
 $worker->work();
 ```
 
-### Current Drivers:
-+ AWS SQS
-+ RabbitMQ
+## Callbacks
+
++ beforeFetchJob: It is called before trying to fetch a job from the queue
+
+```php
+$worker->attach('heartbeat', function () use ($queueName) {
+    $cronitorUrlId = Configure::read('Cronitor.queue.' . $queueName);
+    if (!empty($cronitorUrlId)) {
+        file_get_contents('https://cronitor.link/' . $cronitorUrlId . '/complete');
+    }
+});
+```
+
++ beforeCompleteJob: It is called before a job is completed  
+
+```php
+$worker->attach('beforeCompleteJob', function () {
+    // do something
+});
+```
+
++ afterCompleteJob: It is called after a job is completed  
+
+```php
+$worker->attach('afterCompleteJob', function () {
+    // do something
+});
+```
+
+
+
+## Current Drivers:
++ [x] AWS SQS
 
 ## Notes
 Some general notes when developing this package
