@@ -55,16 +55,18 @@ $worker = new Worker($queue);
 $worker->work();
 ```
 
++ You can set a [PSR-3 logger](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md) if you want
+```
+$worker->setLogger($psr3Logger);
+```
+
 ## Callbacks
 
 + beforeFetchJob: It is called before trying to fetch a job from the queue
 
 ```php
 $worker->attach('heartbeat', function () use ($queueName) {
-    $cronitorUrlId = Configure::read('Cronitor.queue.' . $queueName);
-    if (!empty($cronitorUrlId)) {
-        file_get_contents('https://cronitor.link/' . $cronitorUrlId . '/complete');
-    }
+    // do something useful
 });
 ```
 
@@ -72,7 +74,7 @@ $worker->attach('heartbeat', function () use ($queueName) {
 
 ```php
 $worker->attach('beforeCompleteJob', function () {
-    // do something
+    // do something useful
 });
 ```
 
@@ -80,7 +82,7 @@ $worker->attach('beforeCompleteJob', function () {
 
 ```php
 $worker->attach('afterCompleteJob', function () {
-    // do something
+    // do something useful
 });
 ```
 
