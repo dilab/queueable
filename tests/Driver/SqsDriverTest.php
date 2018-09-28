@@ -120,6 +120,14 @@ class SqsDriverTest extends TestCase
         ]);
         $result = $this->sqsDriver->pop('email');
         $this->assertEquals($expected, $result);
+
+        $expected = [];
+        $this->setSqsClientResponse([
+            ['QueueUrl' => 'https://queue.amazonaws.com/123456789101/MyQueue'],
+            ['Messages' => null]
+        ]);
+        $result = $this->sqsDriver->pop('email');
+        $this->assertSame($expected, $result);
     }
 
     public function testPush()

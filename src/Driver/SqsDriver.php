@@ -54,7 +54,7 @@ class SqsDriver extends Driver
             'AttributeNames' => ['ApproximateReceiveCount'],
         ]);
 
-        if (count($response->get('Messages')) < 1) {
+        if (empty($response->get('Messages')) || count($response->get('Messages')) < 1) {
             return [];
         }
 
