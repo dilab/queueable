@@ -47,6 +47,11 @@ class SqsDriver extends Driver
         return 'Sqs';
     }
 
+    public function release($queueName, array $message, $options = [])
+    {
+        return true;
+    }
+
     public function pop($queueName, $options = [])
     {
         $response = $this->sqsClient->receiveMessage([

@@ -13,14 +13,12 @@ abstract class Driver
     /**
      * Release the message back into the queue.
      *
-     * @param  array $message an array of item data
-     *
+     * @param $queueName
+     * @param array $message
+     * @param array $options
      * @return boolean
      */
-    public function release($queueName, array $message, $options = [])
-    {
-        return true;
-    }
+    public abstract function release($queueName, array $message, $options = []);
 
     /**
      * Pop the next message off of the queue.

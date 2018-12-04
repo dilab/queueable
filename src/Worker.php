@@ -106,6 +106,7 @@ class Worker implements LoggerAwareInterface
         }
 
         try {
+
             $this->triggerCallback('beforeCompleteJob');
 
             $job->fire();
@@ -118,21 +119,9 @@ class Worker implements LoggerAwareInterface
 
             return self::STATUS_CODE_OK;
 
-        } catch (OutOfOrder $e) {
-
-            $this->log(sprintf('Job %s is out of order, putting it back to queue', $job->name()));
-
-            $job->release();
-
-            return self::STATUS_CODE_OUT_OF_ORDER;
-
         } catch (\Exception $e) {
 
             $this->log(sprintf('Error while processing job - %s!', $job->name()));
-
-            $this->log($e->getMessage());
-
-            $this->log($e->getTrace());
 
             $job->release();
 
