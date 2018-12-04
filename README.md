@@ -86,6 +86,13 @@ $worker->attach('afterCompleteJob', function () {
 });
 ```
 
++ onError: It is called whenever it is failed to process a job
+
+```php
+$worker->attach('onError', function ($failedJob, $message, $trace) {
+    // send an email
+});
+``` 
 
 
 ## Current Drivers:

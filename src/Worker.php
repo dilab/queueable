@@ -24,7 +24,8 @@ class Worker implements LoggerAwareInterface
         'beforeFetchJob' => null,
         'beforeCompleteJob' => null,
         'afterCompleteJob' => null,
-        'heartbeat' => null, // depreciated
+        'heartbeat' => null, // depreciated, use beforeFetchJob instead
+        'onError' => null
     ];
 
     /**
@@ -125,6 +126,8 @@ class Worker implements LoggerAwareInterface
 
             $job->release();
 
+            $this->triggerCallback('onError', [$job, $e->getMessage(), $e->getTraceAsString()]);
+
             return self::STATUS_CODE_ERROR;
         }
 
@@ -137,10 +140,10 @@ class Worker implements LoggerAwareInterface
         }
     }
 
-    private function triggerCallback($name)
+    private function triggerCallback($name, $args = [])
     {
         if (is_callable($this->callBacks[$name])) {
-            call_user_func($this->callBacks[$name]);
+            call_user_func($this->callBacks[$name], ...$args);
         }
     }
 
