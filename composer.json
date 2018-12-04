@@ -19,9 +19,6 @@
         "mockery/mockery": "^0.9.6",
         "psr/log": "^1.0"
     },
-    "bin":  [
-        "bin/queueable"
-    ],
     "autoload": {
         "psr-4": { "Dilab\\Queueable\\" : "src/" }
     }
