@@ -92,7 +92,7 @@ class SqsDriverTest extends TestCase
             ],
             'Body' => 'My first message',
             'MD5OfBody' => '77a8f18b5388a3865556cc642424151c',
-            'MD5OfMessageAttributes' => '9424c49126bc3ae7',
+            'MD5OfMessageAttributes' => '9424c491ff2bbec06ecbc9d226bc3ae7',
             'MessageAttributes' => [
                 'City' => [
                     'DataType' => 'String',
@@ -112,22 +112,6 @@ class SqsDriverTest extends TestCase
         ]);
         $result = $this->sqsDriver->pop('email');
         $this->assertEquals($expected, $result);
-
-        $expected = [];
-        $this->setSqsClientResponse([
-            ['QueueUrl' => 'https://queue.amazonaws.com/123456789101/MyQueue'],
-            ['Messages' => [$expected]]
-        ]);
-        $result = $this->sqsDriver->pop('email');
-        $this->assertEquals($expected, $result);
-
-        $expected = [];
-        $this->setSqsClientResponse([
-            ['QueueUrl' => 'https://queue.amazonaws.com/123456789101/MyQueue'],
-            ['Messages' => null]
-        ]);
-        $result = $this->sqsDriver->pop('email');
-        $this->assertSame($expected, $result);
     }
 
     public function testPush()
@@ -195,7 +179,7 @@ class SqsDriverTest extends TestCase
                 ],
                 'Body' => 'My first message',
                 'MD5OfBody' => '77a8f18b5388a3865556cc642424151c',
-                'MD5OfMessageAttributes' => '9424c49126bc3ae7',
+                'MD5OfMessageAttributes' => '9424c491ff2bbec06ecbc9d226bc3ae7',
                 'MessageAttributes' => [
                     'City' => [
                         'DataType' => 'String',
@@ -215,7 +199,7 @@ class SqsDriverTest extends TestCase
                 ],
                 'Body' => 'My second message',
                 'MD5OfBody' => '0c9ec408cb84147c5301921b42429ad7',
-                'MD5OfMessageAttributes' => '9424c49126bc3ae7',
+                'MD5OfMessageAttributes' => '9424c491ff2bbec06ecbc9d226bc3ae7',
                 'MessageAttributes' => [
                     'City' => [
                         'DataType' => 'String',
