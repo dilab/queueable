@@ -52,7 +52,7 @@ $worker = new Worker($queue);
 
 + Put worker to work
 ```php
-$worker->work();
+$worker->work($maxTries = 5, $sleepSecs = 5);
 ```
 
 + You can set a [PSR-3 logger](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md) if you want
